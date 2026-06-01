@@ -728,8 +728,9 @@
 		A18EE86CC3054DC1AA447E94 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_ENTITLEMENTS = FitRunAppWatchExtension/FitRunAppWatchExtension.entitlements;
+					APPLICATION_EXTENSION_API_ONLY = YES;
+					CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+					CODE_SIGN_ENTITLEMENTS = FitRunAppWatchExtension/FitRunAppWatchExtension.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = E626L65277;
 				INFOPLIST_FILE = FitRunAppWatchExtension/Info.plist;
@@ -753,8 +754,9 @@
 		CA67810541E04D1CB10FD822 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_ENTITLEMENTS = FitRunAppWatchExtension/FitRunAppWatchExtension.entitlements;
+					APPLICATION_EXTENSION_API_ONLY = YES;
+					CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+					CODE_SIGN_ENTITLEMENTS = FitRunAppWatchExtension/FitRunAppWatchExtension.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = E626L65277;
 				GCC_PREPROCESSOR_DEFINITIONS = (

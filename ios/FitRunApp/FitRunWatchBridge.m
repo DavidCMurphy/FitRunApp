@@ -9,4 +9,11 @@ RCT_EXTERN_METHOD(getLatestWorkout:(RCTPromiseResolveBlock)resolve
 RCT_EXTERN_METHOD(isWatchConnectivityAvailable:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(getRunPlan:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(setRunPlan:(NSDictionary *)plan
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+
 @end

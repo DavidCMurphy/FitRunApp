@@ -3,6 +3,41 @@ import HealthKit
 import SwiftUI
 import WatchConnectivity
 
+struct RunWalkPlan {
+  let title: String
+  let enabled: Bool
+  let runSeconds: Int
+  let walkSeconds: Int
+  let repeatCount: Int
+  let warmupSeconds: Int
+  let cooldownSeconds: Int
+
+  var totalIntervalSeconds: Int {
+    max(1, (runSeconds + walkSeconds) * repeatCount)
+  }
+
+  var totalSeconds: Int {
+    warmupSeconds + totalIntervalSeconds + cooldownSeconds
+  }
+
+  static let `default` = RunWalkPlan(
+    title: "5K Run Walk",
+    enabled: true,
+    runSeconds: 60,
+    walkSeconds: 90,
+    repeatCount: 8,
+    warmupSeconds: 300,
+    cooldownSeconds: 300
+  )
+}
+
+struct RunWalkInterval {
+  let label: String
+  let remainingSeconds: Int
+  let index: Int
+  let total: Int
+}
+
 @MainActor
 final class WorkoutManager: NSObject, ObservableObject {
   @Published private(set) var elapsedSeconds = 0
@@ -11,6 +46,8 @@ final class WorkoutManager: NSObject, ObservableObject {
   @Published private(set) var heartRateBPM = 0.0
   @Published private(set) var isWorkoutActive = false
   @Published private(set) var statusText = "Ready"
+  @Published private(set) var runPlan = RunWalkPlan.default
+  @Published private(set) var currentInterval = RunWalkInterval(label: "Ready", remainingSeconds: 0, index: 0, total: 0)
 
   private let healthStore = HKHealthStore()
   private var workoutSession: HKWorkoutSession?
@@ -39,6 +76,18 @@ final class WorkoutManager: NSObject, ObservableObject {
 
   var heartRateText: String {
     heartRateBPM > 0 ? "\(Int(heartRateBPM.rounded())) bpm" : "-- bpm"
+  }
+
+  var planSummaryText: String {
+    guard runPlan.enabled else {
+      return "No run/walk plan"
+    }
+
+    return "\(durationText(runPlan.runSeconds)) run / \(durationText(runPlan.walkSeconds)) walk x \(runPlan.repeatCount)"
+  }
+
+  var intervalRemainingText: String {
+    elapsedText(from: currentInterval.remainingSeconds)
   }
 
   override init() {
@@ -129,6 +178,7 @@ final class WorkoutManager: NSObject, ObservableObject {
     isEndingWorkout = false
     lastSentSecond = -1
     statusText = timerOnly ? "Timer running" : "Workout running"
+    updateCurrentInterval()
   }
 
   private func beginTimerOnlyWorkout(preservingStartDate: Bool = false) {
@@ -165,6 +215,7 @@ final class WorkoutManager: NSObject, ObservableObject {
           }
 
           self.elapsedSeconds = self.elapsedSecondsSinceStart()
+          self.updateCurrentInterval()
           self.sendWorkoutUpdate(event: "tick")
         }
       }
@@ -184,6 +235,64 @@ final class WorkoutManager: NSObject, ObservableObject {
     return max(0, Int(Date().timeIntervalSince(startedAt)))
   }
 
+  private func updateCurrentInterval() {
+    currentInterval = interval(for: elapsedSeconds)
+  }
+
+  private func interval(for elapsedSeconds: Int) -> RunWalkInterval {
+    guard runPlan.enabled else {
+      return RunWalkInterval(label: "Free run", remainingSeconds: 0, index: 0, total: 0)
+    }
+
+    if runPlan.warmupSeconds > 0, elapsedSeconds < runPlan.warmupSeconds {
+      return RunWalkInterval(
+        label: "Warmup",
+        remainingSeconds: runPlan.warmupSeconds - elapsedSeconds,
+        index: 0,
+        total: runPlan.repeatCount
+      )
+    }
+
+    let intervalElapsed = elapsedSeconds - runPlan.warmupSeconds
+    let cycleSeconds = max(1, runPlan.runSeconds + runPlan.walkSeconds)
+    let intervalTotal = runPlan.totalIntervalSeconds
+
+    if intervalElapsed < intervalTotal {
+      let cycleIndex = intervalElapsed / cycleSeconds
+      let cycleElapsed = intervalElapsed % cycleSeconds
+      let intervalIndex = min(runPlan.repeatCount, cycleIndex + 1)
+
+      if cycleElapsed < runPlan.runSeconds {
+        return RunWalkInterval(
+          label: "Run",
+          remainingSeconds: runPlan.runSeconds - cycleElapsed,
+          index: intervalIndex,
+          total: runPlan.repeatCount
+        )
+      }
+
+      return RunWalkInterval(
+        label: "Walk",
+        remainingSeconds: cycleSeconds - cycleElapsed,
+        index: intervalIndex,
+        total: runPlan.repeatCount
+      )
+    }
+
+    let cooldownElapsed = intervalElapsed - intervalTotal
+
+    if runPlan.cooldownSeconds > 0, cooldownElapsed < runPlan.cooldownSeconds {
+      return RunWalkInterval(
+        label: "Cooldown",
+        remainingSeconds: runPlan.cooldownSeconds - cooldownElapsed,
+        index: runPlan.repeatCount,
+        total: runPlan.repeatCount
+      )
+    }
+
+    return RunWalkInterval(label: "Plan complete", remainingSeconds: 0, index: runPlan.repeatCount, total: runPlan.repeatCount)
+  }
+
   private func sendWorkoutUpdate(event: String, force: Bool = false) {
     guard force || elapsedSeconds != lastSentSecond else {
       return
@@ -200,6 +309,11 @@ final class WorkoutManager: NSObject, ObservableObject {
       "activeEnergyKilocalories": activeEnergyKilocalories,
       "distanceMeters": distanceMeters,
       "heartRateBPM": heartRateBPM,
+      "runPlanTitle": runPlan.title,
+      "intervalLabel": currentInterval.label,
+      "intervalRemainingSeconds": currentInterval.remainingSeconds,
+      "intervalIndex": currentInterval.index,
+      "intervalTotal": currentInterval.total,
       "collectedAt": Date()
     ]
 
@@ -239,6 +353,81 @@ final class WorkoutManager: NSObject, ObservableObject {
     let session = WCSession.default
     session.delegate = self
     session.activate()
+  }
+
+  private func applyRunPlanPayload(_ payload: [String: Any]) {
+    guard let planPayload = payload["runPlan"] as? [String: Any] else {
+      return
+    }
+
+    runPlan = RunWalkPlan(
+      title: stringValue(planPayload["title"], defaultValue: RunWalkPlan.default.title),
+      enabled: boolValue(planPayload["enabled"], defaultValue: true),
+      runSeconds: max(1, intValue(planPayload["runSeconds"], defaultValue: RunWalkPlan.default.runSeconds)),
+      walkSeconds: max(1, intValue(planPayload["walkSeconds"], defaultValue: RunWalkPlan.default.walkSeconds)),
+      repeatCount: max(1, intValue(planPayload["repeatCount"], defaultValue: RunWalkPlan.default.repeatCount)),
+      warmupSeconds: max(0, intValue(planPayload["warmupSeconds"], defaultValue: RunWalkPlan.default.warmupSeconds)),
+      cooldownSeconds: max(0, intValue(planPayload["cooldownSeconds"], defaultValue: RunWalkPlan.default.cooldownSeconds))
+    )
+    updateCurrentInterval()
+    statusText = isWorkoutActive ? statusText : "Plan synced"
+  }
+
+  private func intValue(_ value: Any?, defaultValue: Int) -> Int {
+    if let int = value as? Int {
+      return int
+    }
+
+    if let number = value as? NSNumber {
+      return number.intValue
+    }
+
+    if let string = value as? String {
+      return Int(string) ?? defaultValue
+    }
+
+    return defaultValue
+  }
+
+  private func boolValue(_ value: Any?, defaultValue: Bool) -> Bool {
+    if let bool = value as? Bool {
+      return bool
+    }
+
+    if let number = value as? NSNumber {
+      return number.boolValue
+    }
+
+    return defaultValue
+  }
+
+  private func stringValue(_ value: Any?, defaultValue: String) -> String {
+    guard let string = value as? String, !string.isEmpty else {
+      return defaultValue
+    }
+
+    return string
+  }
+
+  private func durationText(_ totalSeconds: Int) -> String {
+    if totalSeconds < 60 {
+      return "\(totalSeconds)s"
+    }
+
+    let minutes = totalSeconds / 60
+    let seconds = totalSeconds % 60
+
+    if seconds == 0 {
+      return "\(minutes)m"
+    }
+
+    return "\(minutes)m \(seconds)s"
+  }
+
+  private func elapsedText(from totalSeconds: Int) -> String {
+    let minutes = max(0, totalSeconds) / 60
+    let seconds = max(0, totalSeconds) % 60
+    return String(format: "%02d:%02d", minutes, seconds)
   }
 }
 
@@ -329,4 +518,22 @@ extension WorkoutManager: WCSessionDelegate {
     activationDidCompleteWith activationState: WCSessionActivationState,
     error: Error?
   ) {}
+
+  nonisolated func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
+    Task { @MainActor in
+      self.applyRunPlanPayload(message)
+    }
+  }
+
+  nonisolated func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
+    Task { @MainActor in
+      self.applyRunPlanPayload(userInfo)
+    }
+  }
+
+  nonisolated func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
+    Task { @MainActor in
+      self.applyRunPlanPayload(applicationContext)
+    }
+  }
 }
