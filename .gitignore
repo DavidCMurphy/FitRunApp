@@ -1,6 +1,62 @@
-node_modules/
-.expo/
-dist/
-build/
-*.log
+# macOS
 .DS_Store
+
+# Dependency directories
+node_modules/
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+web-build/
+
+# React Native / Metro
+.metro-health-check*
+.packager.env
+*.jsbundle
+*.bundle
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+watchman-error.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Test / coverage output
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+android/.idea/
+*.iml
+
+# iOS
+ios/build/
+ios/Pods/
+ios/DerivedData/
+ios/.xcode.env.local
+ios/*.xcuserstate
+ios/**/*.xcuserstate
+ios/**/xcuserdata/
+
+# Xcode archives / packages
+*.xcarchive
+*.ipa
+
+# Temporary files
+*.tmp
+*.temp
