@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { ActionButton } from './src/components/ActionButton';
 import { AppHeader } from './src/components/AppHeader';
@@ -26,21 +27,23 @@ export default function App() {
   const { runPlan, runPlanMessage, updateRunPlan } = useRunPlanSync();
 
   return (
-    <SafeAreaView style={styles.screen}>
-      <StatusBar style="dark" />
-      <ScrollView contentContainerStyle={styles.container}>
-        <AppHeader />
-        <StepsMetricPanel appState={appState} stepsLabel={stepsLabel} />
-        <StatusPanel lastUpdated={lastUpdated} message={message} />
-        <WatchWorkoutPanel watchMessage={watchMessage} workout={watchWorkout} />
-        <RunPlanPanel message={runPlanMessage} onUpdate={updateRunPlan} plan={runPlan} />
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.screen}>
+        <StatusBar style="dark" />
+        <ScrollView contentContainerStyle={styles.container}>
+          <AppHeader />
+          <StepsMetricPanel appState={appState} stepsLabel={stepsLabel} />
+          <StatusPanel lastUpdated={lastUpdated} message={message} />
+          <WatchWorkoutPanel watchMessage={watchMessage} workout={watchWorkout} />
+          <RunPlanPanel message={runPlanMessage} onUpdate={updateRunPlan} plan={runPlan} />
 
-        {appState === 'needsPermission' && (
-          <ActionButton kind="primary" label="Connect HealthKit" onPress={connectHealthKit} />
-        )}
+          {appState === 'needsPermission' && (
+            <ActionButton kind="primary" label="Connect HealthKit" onPress={connectHealthKit} />
+          )}
 
-        {canRefresh && <ActionButton kind="secondary" label="Refresh steps" onPress={loadSteps} />}
-      </ScrollView>
-    </SafeAreaView>
+          {canRefresh && <ActionButton kind="secondary" label="Refresh steps" onPress={loadSteps} />}
+        </ScrollView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
