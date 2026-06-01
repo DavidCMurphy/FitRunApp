@@ -22,14 +22,34 @@ public class AppDelegate: ExpoAppDelegate {
     bindReactNativeFactory(factory)
 
 #if os(iOS) || os(tvOS)
-    window = UIWindow(frame: UIScreen.main.bounds)
-    factory.startReactNative(
-      withModuleName: "main",
-      in: window,
-      launchOptions: launchOptions)
+    if #available(iOS 13.0, tvOS 13.0, *) {
+      return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    }
+
+    startReactNative(in: UIWindow(frame: UIScreen.main.bounds), launchOptions: launchOptions)
 #endif
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+
+  func startReactNative(
+    in window: UIWindow,
+    launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+  ) {
+    self.window = window
+    reactNativeFactory?.startReactNative(
+      withModuleName: "main",
+      in: window,
+      launchOptions: launchOptions)
+  }
+
+  @available(iOS 13.0, tvOS 13.0, *)
+  public func application(
+    _ application: UIApplication,
+    configurationForConnecting connectingSceneSession: UISceneSession,
+    options: UIScene.ConnectionOptions
+  ) -> UISceneConfiguration {
+    return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
   }
 
   // Linking API

@@ -4,16 +4,19 @@ import { styles } from '../styles/appStyles';
 
 type ActionButtonProps = {
   kind: 'primary' | 'secondary';
+  disabled?: boolean;
   label: string;
   onPress: () => void;
 };
 
-export function ActionButton({ kind, label, onPress }: ActionButtonProps) {
+export function ActionButton({ disabled = false, kind, label, onPress }: ActionButtonProps) {
   const isPrimary = kind === 'primary';
+  const buttonStyle = isPrimary ? styles.primaryButton : styles.secondaryButton;
+  const buttonTextStyle = isPrimary ? styles.primaryButtonText : styles.secondaryButtonText;
 
   return (
-    <Pressable style={isPrimary ? styles.primaryButton : styles.secondaryButton} onPress={onPress}>
-      <Text style={isPrimary ? styles.primaryButtonText : styles.secondaryButtonText}>{label}</Text>
+    <Pressable disabled={disabled} style={[buttonStyle, disabled && styles.disabledButton]} onPress={onPress}>
+      <Text style={buttonTextStyle}>{label}</Text>
     </Pressable>
   );
 }

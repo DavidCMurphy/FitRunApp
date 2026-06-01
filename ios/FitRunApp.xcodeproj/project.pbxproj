@@ -24,6 +24,7 @@
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		EA41AF092F7C4E73A1AA59F2 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5FC23214DDC46FFB63B9A2E /* WatchConnectivity.framework */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
+		F11748452D075E860044C1D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748432D075E860044C1D9 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		EC3D170B49DFFC702FA1C9AB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = FitRunApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = FitRunApp/AppDelegate.swift; sourceTree = "<group>"; };
+		F11748432D075E860044C1D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = FitRunApp/SceneDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* FitRunApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "FitRunApp-Bridging-Header.h"; path = "FitRunApp/FitRunApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		F1ADAED3777B4EC292F589A3 /* FitRunAppWatchApp.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = FitRunAppWatchApp.swift; path = FitRunAppWatchExtension/FitRunAppWatchApp.swift; sourceTree = "<group>"; };
 		F21D60660D093204DF325C37 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-FitRunApp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
+				F11748432D075E860044C1D9 /* SceneDelegate.swift */,
 				F11748442D0722820044C1D9 /* FitRunApp-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -482,6 +485,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
+				F11748452D075E860044C1D9 /* SceneDelegate.swift in Sources */,
 				530666DE98E769584FC323BC /* ExpoModulesProvider.swift in Sources */,
 				8D5266DFDFFD488FAD8935C1 /* FitRunWatchBridge.swift in Sources */,
 				367439BC4450484792697ED5 /* FitRunWatchBridge.m in Sources */,

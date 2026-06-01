@@ -8,19 +8,28 @@
     "ios": "expo run:ios",
     "android": "expo run:android",
     "web": "expo start --web",
+    "api:generate": "orval --config orval.config.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@kingstinct/react-native-healthkit": "^10.1.0",
+    "@react-navigation/native": "^7.2.5",
+    "@react-navigation/native-stack": "^7.16.0",
+    "@tanstack/react-query": "^5.100.14",
+    "axios": "^1.16.1",
     "expo": "~54.0.0",
     "expo-status-bar": "~3.0.8",
     "react": "19.1.0",
     "react-native": "0.81.5",
+    "react-native-keychain": "^10.0.0",
     "react-native-nitro-modules": "^0.31.8",
-    "react-native-safe-area-context": "~5.6.0"
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-screens": "~4.16.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/react": "~19.1.10",
+    "orval": "^7.13.2",
     "typescript": "~5.9.2"
   }
 }

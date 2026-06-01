@@ -256,5 +256,93 @@ export const styles = StyleSheet.create({
     color: '#111827',
     fontSize: 16,
     fontWeight: '800'
+  },
+  disabledButton: {
+    opacity: 0.56
+  },
+  loginKeyboardView: {
+    flex: 1
+  },
+  loginContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 32,
+    gap: 28
+  },
+  authScrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 32,
+    gap: 28
+  },
+  loginHero: {
+    gap: 8
+  },
+  loginEyebrow: {
+    color: '#667085',
+    fontSize: 14,
+    fontWeight: '900',
+    textTransform: 'uppercase'
+  },
+  loginTitle: {
+    color: '#111827',
+    fontSize: 42,
+    fontWeight: '900'
+  },
+  loginSubtitle: {
+    maxWidth: 320,
+    color: '#475467',
+    fontSize: 17,
+    lineHeight: 25,
+    fontWeight: '600'
+  },
+  loginForm: {
+    borderRadius: 8,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#e4e7ec',
+    padding: 18,
+    gap: 16,
+    shadowColor: '#111827',
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 14 },
+    shadowRadius: 28,
+    elevation: 3
+  },
+  inputGroup: {
+    gap: 8
+  },
+  inputLabel: {
+    color: '#334155',
+    fontSize: 14,
+    fontWeight: '900'
+  },
+  textInput: {
+    minHeight: 54,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    backgroundColor: '#f8fafc',
+    color: '#111827',
+    fontSize: 16,
+    fontWeight: '700',
+    paddingHorizontal: 14
+  },
+  loginError: {
+    color: '#b42318',
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: '700'
+  },
+  authSwitch: {
+    gap: 10
+  },
+  authSwitchText: {
+    color: '#667085',
+    fontSize: 14,
+    fontWeight: '700',
+    textAlign: 'center'
   }
 });
