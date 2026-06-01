@@ -1,5 +1,7 @@
 # FitRunApp
 
+![FitRunApp iPhone and Apple Watch simulators](assets/fitrun-screenshot.png)
+
 An Expo React Native app that displays today's step count from Apple HealthKit.
 
 ## Run
