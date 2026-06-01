@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "FitRunApp",
+    "slug": "fitrunapp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "scheme": "fitrunapp",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fitrunapp.mobile"
+    },
+    "android": {
+      "package": "com.fitrunapp.mobile"
+    },
+    "plugins": [
+      [
+        "@kingstinct/react-native-healthkit",
+        {
+          "NSHealthShareUsageDescription": "FitRunApp reads your step count from HealthKit to show your daily activity.",
+          "NSHealthUpdateUsageDescription": false,
+          "background": false
+        }
+      ]
+    ]
+  }
+}
