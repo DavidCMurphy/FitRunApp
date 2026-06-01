@@ -34,6 +34,8 @@
 	<string>FitRunApp reads workout metrics during a watch workout.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>FitRunApp starts and saves running workouts from Apple Watch.</string>
+	<key>RCTNewArchEnabled</key>
+	<true/>
 	<key>WKBackgroundModes</key>
 	<array>
 		<string>workout-processing</string>

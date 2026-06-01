@@ -266,6 +266,7 @@
 			buildPhases = (
 				6B31BCFECFEB4275BE957DF1 /* Embed App Extensions */,
 				EBF6F2915E284B43AD599E79 /* Resources */,
+				88B8368344876D41832A311F /* Sources */,
 			);
 			buildRules = (
 			);
@@ -497,6 +498,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		88B8368344876D41832A311F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -529,6 +537,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fitrunapp.mobile.watchkitapp;
 				PRODUCT_NAME = FitRunAppWatchApp;
 				SDKROOT = watchos;
@@ -728,9 +737,9 @@
 		A18EE86CC3054DC1AA447E94 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-					APPLICATION_EXTENSION_API_ONLY = YES;
-					CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
-					CODE_SIGN_ENTITLEMENTS = FitRunAppWatchExtension/FitRunAppWatchExtension.entitlements;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+				CODE_SIGN_ENTITLEMENTS = FitRunAppWatchExtension/FitRunAppWatchExtension.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = E626L65277;
 				INFOPLIST_FILE = FitRunAppWatchExtension/Info.plist;
@@ -741,6 +750,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fitrunapp.mobile.watchkitapp.watchkitextension;
 				PRODUCT_NAME = FitRunAppWatchExtension;
 				SDKROOT = watchos;
@@ -754,9 +764,9 @@
 		CA67810541E04D1CB10FD822 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-					APPLICATION_EXTENSION_API_ONLY = YES;
-					CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
-					CODE_SIGN_ENTITLEMENTS = FitRunAppWatchExtension/FitRunAppWatchExtension.entitlements;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+				CODE_SIGN_ENTITLEMENTS = FitRunAppWatchExtension/FitRunAppWatchExtension.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = E626L65277;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -771,6 +781,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fitrunapp.mobile.watchkitapp.watchkitextension;
 				PRODUCT_NAME = FitRunAppWatchExtension;
 				SDKROOT = watchos;
@@ -793,6 +804,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fitrunapp.mobile.watchkitapp;
 				PRODUCT_NAME = FitRunAppWatchApp;
 				SDKROOT = watchos;
